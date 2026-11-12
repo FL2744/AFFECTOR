@@ -1,0 +1,112 @@
+{
+  "device": "mps",
+  "identity": {
+    "model": "Qwen/Qwen3.5-0.8B",
+    "revision": "2fc06364715b967f1860aea9cf38778875588b17",
+    "width": 1024,
+    "site": "pre_ffn_with_residual",
+    "dtype": "float32",
+    "transformers": "5.22.2",
+    "torch": "2.15.0"
+  },
+  "input": "She opened the letter at the kitchen table. Her brother would arrive on Friday, and she needed to prepare the spare room.",
+  "baseline": {
+    "text": "She sat at the kitchen table, her attention fixed on the letter she had just opened. The anticipation of her brother's arrival on Friday weighed heavily on her, yet she knew she had to get to work before the day ended. She needed to prepare the spare room, a task that required her full attention and a clear mind.",
+    "tokens": 69,
+    "truncated": false,
+    "seconds": 3.081,
+    "activation_injections": 0,
+    "mean_delta_rms": 0.0
+  },
+  "zero_strength": {
+    "text": "She sat at the kitchen table, her attention fixed on the letter she had just opened. The anticipation of her brother's arrival on Friday weighed heavily on her, yet she knew she had to get to work before the day ended. She needed to prepare the spare room, a task that required her full attention and a clear mind.",
+    "tokens": 69,
+    "truncated": false,
+    "seconds": 3.003,
+    "activation_injections": 0,
+    "mean_delta_rms": 0.0
+  },
+  "steered": {
+    "text": "She opened the letter at the kitchen table, her heart racing as she prepared the spare room for her brother to arrive on Friday.",
+    "tokens": 29,
+    "truncated": false,
+    "seconds": 1.524,
+    "activation_injections": 90,
+    "mean_delta_rms": 0.027682452710966268
+  },
+  "local_evaluation": {
+    "row": {
+      "id": 1,
+      "intensity": 0.75,
+      "valence": 0.5,
+      "direction": 0.5,
+      "direction_status": "mixed",
+      "tone": "mixed",
+      "uncertainty": "medium",
+      "summary": "The narrator feels a mix of anxiety and anticipation as she prepares a room for her brother's arrival.",
+      "uncertainty_note": "The intensity is high due to the physical action of opening a letter and the emotional weight of the impending event.",
+      "emotions": [
+        {
+          "label": "anticipation",
+          "experiencer": "narrator",
+          "target": "brother's arrival",
+          "intensity": 0.75,
+          "valence": 0.5,
+          "direction": 0.5,
+          "explanation": "The narrator feels a strong sense of anticipation for the brother's return, driven by the physical act of opening a letter.",
+          "evidence": [
+            {
+              "quote": "She opened the letter at the kitchen table",
+              "signal_words": [
+                "opened",
+                "letter",
+                "kitchen",
+                "table"
+              ],
+              "explanation": "The specific action of opening the letter triggers the anticipation of the brother's arrival."
+            },
+            {
+              "quote": "her heart racing",
+              "signal_words": [
+                "heart",
+                "racing"
+              ],
+              "explanation": "The physical sensation of a racing heart is a direct indicator of anxiety."
+            }
+          ]
+        },
+        {
+          "label": "anxiety",
+          "experiencer": "narrator",
+          "target": "brother's arrival",
+          "intensity": 0.75,
+          "valence": 0.5,
+          "direction": 0.5,
+          "explanation": "The narrator feels a palpable anxiety about the brother's return, evident in her racing heart.",
+          "evidence": [
+            {
+              "quote": "her heart racing",
+              "signal_words": [
+                "heart",
+                "racing"
+              ],
+              "explanation": "The physical sensation of a racing heart is a direct indicator of anxiety."
+            }
+          ]
+        }
+      ]
+    },
+    "usage": {
+      "local_tokens": 1074,
+      "attempts": 2
+    }
+  },
+  "checks": [
+    "zero-strength equivalence",
+    "nonzero activation injections",
+    "frozen parameters",
+    "hook cleanup",
+    "baseline restored",
+    "RMS budget"
+  ]
+}
