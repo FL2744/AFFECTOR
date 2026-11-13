@@ -17,5 +17,3 @@ The bibliography uses ACM-Reference-Format.bst. The generated .bbl is included; 
 Includes the source Markdown snapshot and citation verification notes. Equations, tables, and citations are native LaTeX. AI disclosure remains above the suggested citation at the end.
 
 Original report: https://github.com/FL2744/AFFECTOR/blob/main/docs/TECHNICAL_REPORT.md
-
-Build verified with Tectonic 0.17.0 and bundled acmart v1.83 (2022/02/19). All 12 bibliography entries resolve.
