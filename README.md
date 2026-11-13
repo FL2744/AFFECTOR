@@ -1,5 +1,7 @@
 # AFFECTOR
 
+**ACM manuscript:** [PDF](docs/acm/AFFECTOR-Technical-Report-ACM.pdf) · [LaTeX source](docs/acm/AFFECTOR-Technical-Report-ACM.tex) · [Complete source ZIP](docs/acm/AFFECTOR-Technical-Report-ACM-source.zip)
+
 **Emotional geometry → written form.** A standalone native Mac research app for transferring an Emotional Atlas trajectory to a document, either through local transformer activation steering or through API instructions.
 
 Created for William Taggart, Modern and Classical Languages and Literatures, Virginia Tech. Contact: wtaggart@vt.edu.

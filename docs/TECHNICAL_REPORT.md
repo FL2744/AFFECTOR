@@ -1,5 +1,7 @@
 # AFFECTOR: Emotional Geometry Transfer through Transformer Activation Steering
 
+**ACM manuscript:** [PDF](acm/AFFECTOR-Technical-Report-ACM.pdf) · [LaTeX source](acm/AFFECTOR-Technical-Report-ACM.tex) · [Complete source ZIP](acm/AFFECTOR-Technical-Report-ACM-source.zip)
+
 **William Taggart**
 
 Modern and Classical Languages and Literatures, Virginia Tech
