@@ -14,6 +14,6 @@ Or Tectonic 0.17.0:
 
 The bibliography uses ACM-Reference-Format.bst. The generated .bbl is included; references.bib remains editable. All packages are standard TeX distribution packages. No shell escape is needed. The manuscript layout is single-column; change manuscript to sigconf for a venue requiring two columns, then recheck layout.
 
-Includes the source Markdown snapshot and citation verification notes. Equations, tables, and citations are native LaTeX. AI disclosure remains above the suggested citation at the end.
+Includes the source Markdown snapshot and citation verification notes. Equations, tables, and citations are native LaTeX. AI disclosure appears immediately before the references.
 
 Original report: https://github.com/FL2744/AFFECTOR/blob/main/docs/TECHNICAL_REPORT.md
