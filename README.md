@@ -1,6 +1,6 @@
 # AFFECTOR
 
-**ACM manuscript:** [PDF](docs/acm/AFFECTOR-ACM.pdf) · [LaTeX source](docs/acm/AFFECTOR-ACM.tex) · [Complete source ZIP](docs/acm/AFFECTOR-ACM-source.zip)
+**ACM manuscript:** [PDF](paper/AFFECTOR-ACM.pdf) · [LaTeX source](paper/AFFECTOR-ACM.tex) · [Complete source ZIP](paper/AFFECTOR-ACM-source.zip)
 
 **Emotional geometry → written form.** A standalone native Mac research app for transferring an Emotional Atlas trajectory to a document, either through local transformer activation steering or through API instructions.
 
