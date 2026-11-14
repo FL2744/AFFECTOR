@@ -1,0 +1,37 @@
+[
+  {
+    "number": 1,
+    "title": "One continuous path, a finite set of targets",
+    "caption": "Normalized alignment schematic. Target chunks sample a continuous source path at original character midpoints; a short target can miss narrow changes in a long source trajectory.",
+    "section_preceded": "Frozen model and contrastive calibration",
+    "provenance": "Explanatory schematic derived from the report; not a screenshot or new experiment."
+  },
+  {
+    "number": 2,
+    "title": "Contrastive calibration supplies three directions",
+    "caption": "Calibration workflow. Small hand-authored contrasts estimate steering directions; normalization neither orthogonalizes them nor establishes emotional validity.",
+    "section_preceded": "Coordinate-to-activation computation",
+    "provenance": "Explanatory schematic derived from the report; not a screenshot or new experiment."
+  },
+  {
+    "number": 3,
+    "title": "Controls shape the activation displacement",
+    "caption": "Control pipeline. Axis controls operate on three emotional coefficients, not vocabulary logits. Raising budget has no effect while the proposal already lies below the ceiling.",
+    "section_preceded": "Intervention within the transformer",
+    "provenance": "Explanatory schematic derived from the report; not a screenshot or new experiment."
+  },
+  {
+    "number": 4,
+    "title": "A change to both feed-forward branches",
+    "caption": "Hook implementation schematic. The final prompt token and current cached-decoding token receive the intervention; hooks are removed on exit. Hosted API mode instead uses coordinate-bearing instructions.",
+    "section_preceded": "Prompts, sampling, and bounded output",
+    "provenance": "Explanatory schematic derived from the report; not a screenshot or new experiment."
+  },
+  {
+    "number": 5,
+    "title": "Verification is a separate assessment",
+    "caption": "Verification workflow. Failed or direction-unknown assessments are not assigned invented scores, and this score is not an iterative feedback objective during rewriting.",
+    "section_preceded": "Architecture, persistence, and privacy",
+    "provenance": "Explanatory schematic derived from the report; not a screenshot or new experiment."
+  }
+]

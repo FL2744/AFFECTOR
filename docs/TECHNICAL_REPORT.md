@@ -49,6 +49,11 @@ The target document is divided into chunks of at most 700 characters, preferring
 
 This normalized alignment compresses or stretches a source trajectory to the target length. It samples only as many positions as there are chunks. It does not preserve all events or oscillations of a much longer curve. Changes to segmentation can change emotional targets even when the same geometry is selected.
 
+
+![One continuous path, a finite set of targets](../paper/figures/illustration-01.png)
+
+*Illustration 1. Normalized alignment schematic. Target chunks sample a continuous source path at original character midpoints; a short target can miss narrow changes in a long source trajectory.*
+
 ## 3. Frozen model and contrastive calibration
 
 The local backend loads Qwen3.5-0.8B at revision `2fc06364715b967f1860aea9cf38778875588b17`. The implementation operates on its text stack of 24 blocks with hidden width 1,024. Base parameters are frozen; inference uses float32 and eager attention. Apple MPS is selected when available, otherwise CPU. The chat template disables thinking output. The package contains Python 3.14, PyTorch 2.15.0 and Transformers 5.22.2; exact dependency pins accompany the bundle.
@@ -66,6 +71,11 @@ With `RMS(x) = sqrt(mean_r(x[r]^2))`, normalization gives:
 The resulting `B[l]` is a 3 by 1,024 matrix. These are the editable steering-module weights. Defaults select layers 8, 16, and 23, with weights 1, 1, and 0.5. Geometry files retain the calibration examples, matrices, and model/runtime identity; incompatible identities are rejected.
 
 There is no gradient training, score-supervised fitting, orthogonalization, or guarantee that the three directions isolate their intended concepts. Small hand-authored pairs can confound affect with genre, topic, lexical content, and emotional categories. Calibration is exploratory and English-based; multilingual effectiveness has not been established.
+
+
+![Contrastive calibration supplies three directions](../paper/figures/illustration-02.png)
+
+*Illustration 2. Calibration workflow. Small hand-authored contrasts estimate steering directions; normalization neither orthogonalizes them nor establishes emotional validity.*
 
 ## 4. Coordinate-to-activation computation
 
@@ -91,6 +101,11 @@ Zero strength, budget, or layer weight gives an exact zero perturbation. Each ch
 
 Budget is not a semantic-change percentage. At budget 1, the perturbation can have RMS magnitude comparable to the original hidden state at that site. Large values can destabilize generation. Raising the budget only matters when the proposed perturbation would otherwise be clipped; it cannot correct an inaccurate direction.
 
+
+![Controls shape the activation displacement](../paper/figures/illustration-03.png)
+
+*Illustration 3. Control pipeline. Axis controls operate on three emotional coefficients, not vocabulary logits. Raising budget has no effect while the proposal already lies below the ceiling.*
+
 ## 5. Intervention within the transformer
 
 Let `h` denote a block's residual state after its attention or sequence-mixing stage. A conventional feed-forward residual update has the form:
@@ -106,6 +121,11 @@ A pre-hook on the feed-forward normalization adds `delta` to its input, and a po
 The module does not search for trigger phrases or recognize an idiom before activating. The chosen target determines the intervention continuously during decoding. Nevertheless, generation remains conditional on the input and instruction, and the hidden state influences perturbation magnitude. The module is not a content-independent guarantee of a particular affect.
 
 A key limitation is that the intervention is an absolute-coordinate bias, not a measured error correction. A target valence of zero yields no direct valence-axis perturbation; it does not actively neutralize an already negative passage. Correlations between basis vectors further complicate interpretation.
+
+
+![A change to both feed-forward branches](../paper/figures/illustration-04.png)
+
+*Illustration 4. Hook implementation schematic. The final prompt token and current cached-decoding token receive the intervention; hooks are removed on exit. Hosted API mode instead uses coordinate-bearing instructions.*
 
 ## 6. Prompts, sampling, and bounded output
 
@@ -132,6 +152,11 @@ For assessed coordinate `p=(v,d,2i-1)` and target `c`, the reported similarity i
 The denominator is the maximum distance across the three-dimensional `[-1,1]` cube. Similarity is not a probability. Axis errors are also reported. Unknown direction makes the three-axis distance unavailable. Aggregate before/after comparisons use only paired valid assessments and report coverage and failures. Missing assessments are not assigned invented scores.
 
 The same small model can assess its own output, but shared weaknesses make independent evaluation preferable. A high similarity can coexist with incoherence, factual errors, or undesirable content. The implementation does not optimize this score during generation and does not include a formal semantic-fidelity metric.
+
+
+![Verification is a separate assessment](../paper/figures/illustration-05.png)
+
+*Illustration 5. Verification workflow. Failed or direction-unknown assessments are not assigned invented scores, and this score is not an iterative feedback objective during rewriting.*
 
 ## 8. Architecture, persistence, and privacy
 
@@ -171,7 +196,7 @@ The equations and implementation descriptions above are derived from the include
 
 ## Research references
 
-Version-specific arXiv records are linked below. Years distinguish original release from later revision where applicable. These research references supplement the implementation and infrastructure sources elsewhere in this report. Reusable citations: [BibTeX](references.bib). Verification details: [source-check notes](LITERATURE_SOURCES.md).
+Version-specific arXiv records are linked below. Years distinguish original release from later revision where applicable. These research references supplement the implementation and infrastructure sources elsewhere in this report. Reusable citations: [BibTeX](../paper/references.bib). Verification details: [source-check notes](../paper/LITERATURE_SOURCES.md).
 
 **R1.** Alex Turner; Lisa Thiergart; David Udell; Gavin Leech; Ulisse Mini; Monte MacDiarmid. 2023. Activation Addition: Steering Language Models Without Optimization. [arXiv:2308.10248v1](https://arxiv.org/abs/2308.10248v1). Cited version dated 2023-08-20.
 

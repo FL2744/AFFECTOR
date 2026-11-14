@@ -13,6 +13,7 @@
 \providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \providecommand{\passthrough}[1]{#1}
 \providecommand{\pandocbounded}[1]{#1}
+\usepackage{graphicx}
 \begin{document}
 \title{AFFECTOR: Coordinate-Guided Text Rewriting through Transformer
 Activation Interventions}
@@ -175,6 +176,15 @@ chunks. It does not preserve all events or oscillations of a much longer
 curve. Changes to segmentation can change emotional targets even when
 the same geometry is selected.
 
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{figures/illustration-01.pdf}
+\caption{Normalized alignment schematic. Target chunks sample a continuous source path at original character midpoints; a short target can miss narrow changes in a long source trajectory.}
+\Description{One continuous path, a finite set of targets. Normalized alignment schematic. Target chunks sample a continuous source path at original character midpoints; a short target can miss narrow changes in a long source trajectory.}
+\label{fig:illustration-1}
+\end{figure}
+
 \section{Frozen model and contrastive
 calibration}\label{frozen-model-and-contrastive-calibration}
 
@@ -219,6 +229,15 @@ genre, topic, lexical content, and emotional categories. Calibration is
 exploratory and English-based; multilingual effectiveness has not been
 established.
 
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{figures/illustration-02.pdf}
+\caption{Calibration workflow. Small hand-authored contrasts estimate steering directions; normalization neither orthogonalizes them nor establishes emotional validity.}
+\Description{Contrastive calibration supplies three directions. Calibration workflow. Small hand-authored contrasts estimate steering directions; normalization neither orthogonalizes them nor establishes emotional validity.}
+\label{fig:illustration-2}
+\end{figure}
+
 \section{Coordinate-to-activation
 computation}\label{coordinate-to-activation-computation}
 
@@ -259,6 +278,15 @@ state at that site. Large values can destabilize generation. Raising the
 budget only matters when the proposed perturbation would otherwise be
 clipped; it cannot correct an inaccurate direction.
 
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{figures/illustration-03.pdf}
+\caption{Control pipeline. Axis controls operate on three emotional coefficients, not vocabulary logits. Raising budget has no effect while the proposal already lies below the ceiling.}
+\Description{Controls shape the activation displacement. Control pipeline. Axis controls operate on three emotional coefficients, not vocabulary logits. Raising budget has no effect while the proposal already lies below the ceiling.}
+\label{fig:illustration-3}
+\end{figure}
+
 \section{Intervention within the
 transformer}\label{intervention-within-the-transformer}
 
@@ -291,6 +319,15 @@ bias, not a measured error correction. A target valence of zero yields
 no direct valence-axis perturbation; it does not actively neutralize an
 already negative passage. Correlations between basis vectors further
 complicate interpretation.
+
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{figures/illustration-04.pdf}
+\caption{Hook implementation schematic. The final prompt token and current cached-decoding token receive the intervention; hooks are removed on exit. Hosted API mode instead uses coordinate-bearing instructions.}
+\Description{A change to both feed-forward branches. Hook implementation schematic. The final prompt token and current cached-decoding token receive the intervention; hooks are removed on exit. Hosted API mode instead uses coordinate-bearing instructions.}
+\label{fig:illustration-4}
+\end{figure}
 
 \section{Prompts, sampling, and bounded
 output}\label{prompts-sampling-and-bounded-output}
@@ -364,6 +401,15 @@ make independent evaluation preferable. A high similarity can coexist
 with incoherence, factual errors, or undesirable content. The
 implementation does not optimize this score during generation and does
 not include a formal semantic-fidelity metric.
+
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{figures/illustration-05.pdf}
+\caption{Verification workflow. Failed or direction-unknown assessments are not assigned invented scores, and this score is not an iterative feedback objective during rewriting.}
+\Description{Verification is a separate assessment. Verification workflow. Failed or direction-unknown assessments are not assigned invented scores, and this score is not an iterative feedback objective during rewriting.}
+\label{fig:illustration-5}
+\end{figure}
 
 \section{Architecture, persistence, and
 privacy}\label{architecture-persistence-and-privacy}

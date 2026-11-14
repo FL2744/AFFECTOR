@@ -1,21 +1,9 @@
-# AFFECTOR: Coordinate-Guided Text Rewriting through Transformer Activation Interventions
+# AFFECTOR illustrated technical report
 
-Uses the official ACM acmart class with manuscript, screen, and nonacm options. This is an independently distributed report, not an assertion of ACM publication or acceptance. No venue, DOI, or copyright transfer is invented.
+[PDF](AFFECTOR-ACM.pdf) · [ACM LaTeX](AFFECTOR-ACM.tex) · [Markdown](TECHNICAL_PAPER.md) · [Illustrations](figures/)
 
-## Build
+Five tightly cropped, reproducible technical diagrams explain the mechanisms described in the report. These are explanatory schematics, not application screenshots or new experimental results. The existing literature and scientific qualifications are retained. AI disclosure precedes references.
 
-With a current TeX Live/MacTeX installation including acmart:
+Build with `tectonic AFFECTOR-ACM.tex` (rename the resulting PDF to `AFFECTOR-ACM.pdf` where needed). The source archive includes all figure PDFs and PNGs.
 
-    latexmk -pdf AFFECTOR-ACM.tex
-
-Or Tectonic 0.17.0:
-
-    tectonic --keep-logs --keep-intermediates AFFECTOR-ACM.tex
-
-The bibliography uses ACM-Reference-Format.bst. The generated .bbl is included; references.bib remains editable. All packages are standard TeX distribution packages. No shell escape is needed. The manuscript layout is single-column; change manuscript to sigconf for a venue requiring two columns, then recheck layout.
-
-Includes the source Markdown snapshot and citation verification notes. Equations, tables, and citations are native LaTeX. AI disclosure appears immediately before the references.
-
-Original report: https://huggingface.co/will-taggart/AFFECTOR/blob/main/docs/TECHNICAL_PAPER.md
-
-Build verified with Tectonic 0.17.0 and bundled acmart v1.83 (2022/02/19). All 12 bibliography entries resolve.
+Regenerate the diagrams with `python3 render_figures.py` (requires Matplotlib). Diagram titles and captions are recorded in `ILLUSTRATIONS.json`; vector PDF and raster PNG versions are provided.
