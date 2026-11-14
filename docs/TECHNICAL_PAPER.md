@@ -11,28 +11,6 @@ November 13, 2026 · Implementation report · Desktop version 0.1.0
 
 AFFECTOR investigates whether a prescribed emotional trajectory can influence the rewriting of a document. A trajectory assigns valence, emotional direction, and intensity to normalized positions in a text. A local backend maps these coordinates into perturbations of a frozen language model's internal states, while hosted backends use coordinate-bearing instructions. The desktop application supports geometry authoring, editable numerical steering matrices, document conversion, checkpointing, and separate emotional verification. This paper derives the implemented method from first principles and distinguishes mechanical correctness from successful emotional transfer. Current controls can produce emotionally charged language but can also produce weak paraphrases, factual distortions, and repetition. The implementation is an experimental instrument, not a validated predictor or controller of human emotion.
 
-## Application interface
-
-![Document workspace with an example input, rewrite controls, and an empty output pane before generation.](../paper/figures/screenshot-01.png)
-
-*Document workspace with an example input, rewrite controls, and an empty output pane before generation.*
-
-![Geometry editor showing the selected three-point trajectory and its steering controls.](../paper/figures/screenshot-02.png)
-
-*Geometry editor showing the selected three-point trajectory and its steering controls.*
-
-![Source-analysis dialog for generating a geometry and optionally calibrating a local activation basis.](../paper/figures/screenshot-03.png)
-
-*Source-analysis dialog for generating a geometry and optionally calibrating a local activation basis.*
-
-![Expanded numerical weights for the selected geometry, including the local calibration metadata.](../paper/figures/screenshot-04.png)
-
-*Expanded numerical weights for the selected geometry, including the local calibration metadata.*
-
-![Verification controls before evaluation. No verification results have been computed in this view.](../paper/figures/screenshot-05.png)
-
-*Verification controls before evaluation. No verification results have been computed in this view.*
-
 ## Literature review: activation steering and emotion
 
 This focused review covers twelve papers, emphasizing 2025-2026 research and retaining two methodological foundations. Titles, author lists, version histories, and the claims summarized here were checked against arXiv records and the corresponding paper text on November 13, 2026. The cited versions are fixed below; availability on arXiv alone does not establish peer review. The implications for this project are research motivations, not evidence that its implementation reproduces these results.
@@ -53,6 +31,9 @@ This focused review covers twelve papers, emphasizing 2025-2026 research and ret
 
 A document conveys more than propositions: lexical choice, focus, rhythm, imagery, and narrative stance can contribute to an emotional reading. Rewriting a document to follow a desired emotional progression is consequently a multi-objective problem. The output should express the requested affect, remain readable, retain whatever content its rewrite style requires, and have a manageable length. These objectives can conflict.
 
+![Document workspace with an example input, rewrite controls, and an empty output pane before generation.](../paper/figures/screenshot-01.png)
+
+*Document workspace with an example input, rewrite controls, and an empty output pane before generation.*
 AFFECTOR represents the desired affect as an ordered curve, not a vocabulary list. A curve does not uniquely determine a text: countless passages can share the same coarse coordinates. The application offers two mechanisms to bias generation toward that curve. Local activation intervention changes numerical states during inference. API prompting describes the desired coordinates to a remote model. These mechanisms are not equivalent, and their results should be evaluated separately.
 
 The current system does not solve a constrained optimization problem over complete texts. In particular, it does not automatically measure a generated passage and iteratively minimize its emotional distance. Verification is an explicit later operation.
@@ -61,6 +42,9 @@ The current system does not solve a constrained optimization problem over comple
 
 A geometry consists of ordered points `(t, v, d, i)`. Position `t` is in `[0,1]`; valence `v` and direction `d` are in `[-1,1]`; intensity `i` is in `[0,1]`. Negative valence denotes unpleasant affect and positive valence pleasant affect. Negative direction denotes self-focused or inward-directed emotion; positive direction denotes outward focus. Direction is independent of valence: anger toward oneself can be inward and sadness for another person outward. Intensity describes strength of affect, not pleasantness.
 
+![Geometry editor showing the selected three-point trajectory and its steering controls.](../paper/figures/screenshot-02.png)
+
+*Geometry editor showing the selected three-point trajectory and its steering controls.*
 For intervention, intensity is centered:
 
 `c(t) = (v(t), d(t), 2i(t) - 1)`.
@@ -79,6 +63,9 @@ This normalized alignment compresses or stretches a source trajectory to the tar
 
 The local backend loads Qwen3.5-0.8B at revision `2fc06364715b967f1860aea9cf38778875588b17`. The implementation operates on its text stack of 24 blocks with hidden width 1,024. Base parameters are frozen; inference uses float32 and eager attention. Apple MPS is selected when available, otherwise CPU. The chat template disables thinking output. The package contains Python 3.14, PyTorch 2.15.0 and Transformers 5.22.2; exact dependency pins accompany the bundle.
 
+![Source-analysis dialog for generating a geometry and optionally calibrating a local activation basis.](../paper/figures/screenshot-03.png)
+
+*Source-analysis dialog for generating a geometry and optionally calibrating a local activation basis.*
 Before steering, the application obtains three directions per selected layer from twelve manually authored English contrast pairs, four per axis. For example, valence pairs contrast despair with joy, and intensity pairs contrast mild unease with overwhelming terror. Both members of every pair are processed under a continuation instruction. Thus calibration requires 24 forward passes.
 
 The capture site is the final chat-formatted prompt position immediately before the post-attention normalization that feeds the feed-forward sublayer. It is not a mean over all content tokens. For layer `l` and axis `j`, the mean contrast is:
@@ -93,11 +80,13 @@ The resulting `B[l]` is a 3 by 1,024 matrix. These are the editable steering-mod
 
 There is no gradient training, score-supervised fitting, orthogonalization, or guarantee that the three directions isolate their intended concepts. Small hand-authored pairs can confound affect with genre, topic, lexical content, and emotional categories. Calibration is exploratory and English-based; multilingual effectiveness has not been established.
 
-
 ## 4. Coordinate-to-activation computation
 
 Axis temperature `T` transforms each coordinate magnitude while retaining its sign:
 
+![Expanded numerical weights for the selected geometry, including the local calibration metadata.](../paper/figures/screenshot-04.png)
+
+*Expanded numerical weights for the selected geometry, including the local calibration metadata.*
 `q[j] = sign(c[j]) * abs(c[j])^(1/T)`.
 
 The implementation ranks axes by magnitude, retains at most axis top-k, and stops adding axes once cumulative magnitude reaches the configured mass fraction. Surviving coefficients are not renormalized. These operations act on three emotional coefficients, not on the model's vocabulary distribution.
@@ -118,7 +107,6 @@ Zero strength, budget, or layer weight gives an exact zero perturbation. Each ch
 
 Budget is not a semantic-change percentage. At budget 1, the perturbation can have RMS magnitude comparable to the original hidden state at that site. Large values can destabilize generation. Raising the budget only matters when the proposed perturbation would otherwise be clipped; it cannot correct an inaccurate direction.
 
-
 ## 5. Intervention within the transformer
 
 Let `h` denote a block's residual state after its attention or sequence-mixing stage. A conventional feed-forward residual update has the form:
@@ -134,7 +122,6 @@ A pre-hook on the feed-forward normalization adds `delta` to its input, and a po
 The module does not search for trigger phrases or recognize an idiom before activating. The chosen target determines the intervention continuously during decoding. Nevertheless, generation remains conditional on the input and instruction, and the hidden state influences perturbation magnitude. The module is not a content-independent guarantee of a particular affect.
 
 A key limitation is that the intervention is an absolute-coordinate bias, not a measured error correction. A target valence of zero yields no direct valence-axis perturbation; it does not actively neutralize an already negative passage. Correlations between basis vectors further complicate interpretation.
-
 
 ## 6. Prompts, sampling, and bounded output
 
@@ -154,6 +141,9 @@ These mechanisms trade completeness for bounded readable output. Sentence punctu
 
 Verification assesses original and revised chunks separately with an unsteered evaluator or an API model. The evaluator is instructed to distinguish felt or conveyed emotion from mere emotion-word occurrence, identify experiencers and emotional targets, and supply exact quoted evidence. It returns valence, direction, intensity, emotional labels, uncertainty, and concise explanations. Scores are interpretive estimates, not psychometric measurements.
 
+![Verification controls before evaluation. No verification results have been computed in this view.](../paper/figures/screenshot-05.png)
+
+*Verification controls before evaluation. No verification results have been computed in this view.*
 For assessed coordinate `p=(v,d,2i-1)` and target `c`, the reported similarity is:
 
 `similarity = 1 - ||p-c||_2 / (2 sqrt(3))`.
@@ -161,7 +151,6 @@ For assessed coordinate `p=(v,d,2i-1)` and target `c`, the reported similarity i
 The denominator is the maximum distance across the three-dimensional `[-1,1]` cube. Similarity is not a probability. Axis errors are also reported. Unknown direction makes the three-axis distance unavailable. Aggregate before/after comparisons use only paired valid assessments and report coverage and failures. Missing assessments are not assigned invented scores.
 
 The same small model can assess its own output, but shared weaknesses make independent evaluation preferable. A high similarity can coexist with incoherence, factual errors, or undesirable content. The implementation does not optimize this score during generation and does not include a formal semantic-fidelity metric.
-
 
 ## 8. Architecture, persistence, and privacy
 

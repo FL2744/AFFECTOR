@@ -14,6 +14,20 @@
 \providecommand{\passthrough}[1]{#1}
 \providecommand{\pandocbounded}[1]{#1}
 \usepackage{graphicx,float}
+
+% Permit figures to share pages with surrounding explanatory text.
+\renewcommand{\topfraction}{0.92}
+\renewcommand{\bottomfraction}{0.85}
+\renewcommand{\textfraction}{0.06}
+\renewcommand{\floatpagefraction}{0.80}
+\setcounter{topnumber}{3}
+\setcounter{bottomnumber}{3}
+\setcounter{totalnumber}{5}
+\setlength{\textfloatsep}{12pt plus 2pt minus 3pt}
+\setlength{\intextsep}{12pt plus 2pt minus 3pt}
+\raggedbottom
+
+\geometry{top=0.75in,bottom=0.65in,includeheadfoot}
 \begin{document}
 \title{AFFECTOR: Coordinate-Guided Text Rewriting through Transformer
 Activation Interventions}
@@ -114,46 +128,17 @@ the rewrite style, and complete accounting of repetition, truncation,
 and original-text fallbacks. This is an evaluation agenda, not a
 completed benchmark. \citep{yang2026steerscope}.
 
-\section{Application interface}
-The application exposes its principal operations through the following workspaces and controls.
-\begin{figure}[H]
+
+\section{Problem formulation}\label{problem-formulation}
+
+
+\begin{figure}[!htb]
 \centering
-\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{figures/screenshot-01.png}
+\includegraphics[width=\linewidth,height=0.58\textheight,keepaspectratio]{figures/screenshot-01.png}
 \caption{Document workspace with an example input, rewrite controls, and an empty output pane before generation.}
 \Description{Document workspace with an example input, rewrite controls, and an empty output pane before generation.}
 \label{fig:app-screen-1}
 \end{figure}
-\begin{figure}[H]
-\centering
-\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{figures/screenshot-02.png}
-\caption{Geometry editor showing the selected three-point trajectory and its steering controls.}
-\Description{Geometry editor showing the selected three-point trajectory and its steering controls.}
-\label{fig:app-screen-2}
-\end{figure}
-\begin{figure}[H]
-\centering
-\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{figures/screenshot-03.png}
-\caption{Source-analysis dialog for generating a geometry and optionally calibrating a local activation basis.}
-\Description{Source-analysis dialog for generating a geometry and optionally calibrating a local activation basis.}
-\label{fig:app-screen-3}
-\end{figure}
-\begin{figure}[H]
-\centering
-\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{figures/screenshot-04.png}
-\caption{Expanded numerical weights for the selected geometry, including the local calibration metadata.}
-\Description{Expanded numerical weights for the selected geometry, including the local calibration metadata.}
-\label{fig:app-screen-4}
-\end{figure}
-\begin{figure}[H]
-\centering
-\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{figures/screenshot-05.png}
-\caption{Verification controls before evaluation. No verification results have been computed in this view.}
-\Description{Verification controls before evaluation. No verification results have been computed in this view.}
-\label{fig:app-screen-5}
-\end{figure}
-
-\section{Problem formulation}\label{problem-formulation}
-
 A document conveys more than propositions: lexical choice, focus,
 rhythm, imagery, and narrative stance can contribute to an emotional
 reading. Rewriting a document to follow a desired emotional progression
@@ -178,6 +163,14 @@ Verification is an explicit later operation.
 \section{Representation and
 alignment}\label{representation-and-alignment}
 
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\linewidth,height=0.58\textheight,keepaspectratio]{figures/screenshot-02.png}
+\caption{Geometry editor showing the selected three-point trajectory and its steering controls.}
+\Description{Geometry editor showing the selected three-point trajectory and its steering controls.}
+\label{fig:app-screen-2}
+\end{figure}
 A geometry consists of ordered points \nolinkurl{(t, v, d, i)}. Position
 \nolinkurl{t} is in \texttt{{[}0,1{]}}; valence \nolinkurl{v} and direction
 \nolinkurl{d} are in \texttt{{[}-1,1{]}}; intensity \nolinkurl{i} is in
@@ -214,7 +207,7 @@ chunks. It does not preserve all events or oscillations of a much longer
 curve. Changes to segmentation can change emotional targets even when
 the same geometry is selected.
 
-\begin{figure}[htbp]
+\begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{figures/illustration-01.pdf}
 \caption{Normalized alignment schematic. Target chunks sample a continuous source path at original character midpoints; a short target can miss narrow changes in a long source trajectory.}
@@ -225,6 +218,14 @@ the same geometry is selected.
 \section{Frozen model and contrastive
 calibration}\label{frozen-model-and-contrastive-calibration}
 
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\linewidth,height=0.58\textheight,keepaspectratio]{figures/screenshot-03.png}
+\caption{Source-analysis dialog for generating a geometry and optionally calibrating a local activation basis.}
+\Description{Source-analysis dialog for generating a geometry and optionally calibrating a local activation basis.}
+\label{fig:app-screen-3}
+\end{figure}
 The local backend loads Qwen3.5-0.8B at revision
 \nolinkurl{2fc06364715b967f1860aea9cf38778875588b17}. The implementation
 operates on its text stack of 24 blocks with hidden width 1,024. Base
@@ -267,10 +268,17 @@ exploratory and English-based; multilingual effectiveness has not been
 established.
 
 
-
 \section{Coordinate-to-activation
 computation}\label{coordinate-to-activation-computation}
 
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\linewidth,height=0.58\textheight,keepaspectratio]{figures/screenshot-04.png}
+\caption{Expanded numerical weights for the selected geometry, including the local calibration metadata.}
+\Description{Expanded numerical weights for the selected geometry, including the local calibration metadata.}
+\label{fig:app-screen-4}
+\end{figure}
 Axis temperature \nolinkurl{T} transforms each coordinate magnitude while
 retaining its sign:
 
@@ -309,7 +317,6 @@ budget only matters when the proposed perturbation would otherwise be
 clipped; it cannot correct an inaccurate direction.
 
 
-
 \section{Intervention within the
 transformer}\label{intervention-within-the-transformer}
 
@@ -342,7 +349,6 @@ bias, not a measured error correction. A target valence of zero yields
 no direct valence-axis perturbation; it does not actively neutralize an
 already negative passage. Correlations between basis vectors further
 complicate interpretation.
-
 
 
 \section{Prompts, sampling, and bounded
@@ -392,6 +398,14 @@ a proof of success.
 
 \section{Independent verification}\label{independent-verification}
 
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\linewidth,height=0.58\textheight,keepaspectratio]{figures/screenshot-05.png}
+\caption{Verification controls before evaluation. No verification results have been computed in this view.}
+\Description{Verification controls before evaluation. No verification results have been computed in this view.}
+\label{fig:app-screen-5}
+\end{figure}
 Verification assesses original and revised chunks separately with an
 unsteered evaluator or an API model. The evaluator is instructed to
 distinguish felt or conveyed emotion from mere emotion-word occurrence,
@@ -417,7 +431,6 @@ make independent evaluation preferable. A high similarity can coexist
 with incoherence, factual errors, or undesirable content. The
 implementation does not optimize this score during generation and does
 not include a formal semantic-fidelity metric.
-
 
 
 \section{Architecture, persistence, and
