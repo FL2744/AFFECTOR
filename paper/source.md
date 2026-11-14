@@ -11,6 +11,28 @@ November 13, 2026 · Implementation report · Desktop version 0.1.0
 
 AFFECTOR investigates whether a prescribed emotional trajectory can influence the rewriting of a document. A trajectory assigns valence, emotional direction, and intensity to normalized positions in a text. A local backend maps these coordinates into perturbations of a frozen language model's internal states, while hosted backends use coordinate-bearing instructions. The desktop application supports geometry authoring, editable numerical steering matrices, document conversion, checkpointing, and separate emotional verification. This paper derives the implemented method from first principles and distinguishes mechanical correctness from successful emotional transfer. Current controls can produce emotionally charged language but can also produce weak paraphrases, factual distortions, and repetition. The implementation is an experimental instrument, not a validated predictor or controller of human emotion.
 
+## Application interface
+
+![Document workspace with an example input, rewrite controls, and an empty output pane before generation.](figures/screenshot-01.png)
+
+*Document workspace with an example input, rewrite controls, and an empty output pane before generation.*
+
+![Geometry editor showing the selected three-point trajectory and its steering controls.](figures/screenshot-02.png)
+
+*Geometry editor showing the selected three-point trajectory and its steering controls.*
+
+![Source-analysis dialog for generating a geometry and optionally calibrating a local activation basis.](figures/screenshot-03.png)
+
+*Source-analysis dialog for generating a geometry and optionally calibrating a local activation basis.*
+
+![Expanded numerical weights for the selected geometry, including the local calibration metadata.](figures/screenshot-04.png)
+
+*Expanded numerical weights for the selected geometry, including the local calibration metadata.*
+
+![Verification controls before evaluation. No verification results have been computed in this view.](figures/screenshot-05.png)
+
+*Verification controls before evaluation. No verification results have been computed in this view.*
+
 ## Literature review: activation steering and emotion
 
 This focused review covers twelve papers, emphasizing 2025-2026 research and retaining two methodological foundations. Titles, author lists, version histories, and the claims summarized here were checked against arXiv records and the corresponding paper text on November 13, 2026. The cited versions are fixed below; availability on arXiv alone does not establish peer review. The implications for this project are research motivations, not evidence that its implementation reproduces these results.
@@ -71,9 +93,6 @@ The resulting `B[l]` is a 3 by 1,024 matrix. These are the editable steering-mod
 
 There is no gradient training, score-supervised fitting, orthogonalization, or guarantee that the three directions isolate their intended concepts. Small hand-authored pairs can confound affect with genre, topic, lexical content, and emotional categories. Calibration is exploratory and English-based; multilingual effectiveness has not been established.
 
-![Contrastive calibration supplies three directions](figures/illustration-02.png)
-
-*Illustration 2. Calibration workflow. Small hand-authored contrasts estimate steering directions; normalization neither orthogonalizes them nor establishes emotional validity.*
 
 ## 4. Coordinate-to-activation computation
 
@@ -99,9 +118,6 @@ Zero strength, budget, or layer weight gives an exact zero perturbation. Each ch
 
 Budget is not a semantic-change percentage. At budget 1, the perturbation can have RMS magnitude comparable to the original hidden state at that site. Large values can destabilize generation. Raising the budget only matters when the proposed perturbation would otherwise be clipped; it cannot correct an inaccurate direction.
 
-![Controls shape the activation displacement](figures/illustration-03.png)
-
-*Illustration 3. Control pipeline. Axis controls operate on three emotional coefficients, not vocabulary logits. Raising budget has no effect while the proposal already lies below the ceiling.*
 
 ## 5. Intervention within the transformer
 
@@ -119,9 +135,6 @@ The module does not search for trigger phrases or recognize an idiom before acti
 
 A key limitation is that the intervention is an absolute-coordinate bias, not a measured error correction. A target valence of zero yields no direct valence-axis perturbation; it does not actively neutralize an already negative passage. Correlations between basis vectors further complicate interpretation.
 
-![A change to both feed-forward branches](figures/illustration-04.png)
-
-*Illustration 4. Hook implementation schematic. The final prompt token and current cached-decoding token receive the intervention; hooks are removed on exit. Hosted API mode instead uses coordinate-bearing instructions.*
 
 ## 6. Prompts, sampling, and bounded output
 
@@ -149,9 +162,6 @@ The denominator is the maximum distance across the three-dimensional `[-1,1]` cu
 
 The same small model can assess its own output, but shared weaknesses make independent evaluation preferable. A high similarity can coexist with incoherence, factual errors, or undesirable content. The implementation does not optimize this score during generation and does not include a formal semantic-fidelity metric.
 
-![Verification is a separate assessment](figures/illustration-05.png)
-
-*Illustration 5. Verification workflow. Failed or direction-unknown assessments are not assigned invented scores, and this score is not an iterative feedback objective during rewriting.*
 
 ## 8. Architecture, persistence, and privacy
 

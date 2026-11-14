@@ -13,7 +13,7 @@
 \providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \providecommand{\passthrough}[1]{#1}
 \providecommand{\pandocbounded}[1]{#1}
-\usepackage{graphicx}
+\usepackage{graphicx,float}
 \begin{document}
 \title{AFFECTOR: Coordinate-Guided Text Rewriting through Transformer
 Activation Interventions}
@@ -113,6 +113,44 @@ emotional and quality ratings, content-change assessment appropriate to
 the rewrite style, and complete accounting of repetition, truncation,
 and original-text fallbacks. This is an evaluation agenda, not a
 completed benchmark. \citep{yang2026steerscope}.
+
+\section{Application interface}
+The application exposes its principal operations through the following workspaces and controls.
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{figures/screenshot-01.png}
+\caption{Document workspace with an example input, rewrite controls, and an empty output pane before generation.}
+\Description{Document workspace with an example input, rewrite controls, and an empty output pane before generation.}
+\label{fig:app-screen-1}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{figures/screenshot-02.png}
+\caption{Geometry editor showing the selected three-point trajectory and its steering controls.}
+\Description{Geometry editor showing the selected three-point trajectory and its steering controls.}
+\label{fig:app-screen-2}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{figures/screenshot-03.png}
+\caption{Source-analysis dialog for generating a geometry and optionally calibrating a local activation basis.}
+\Description{Source-analysis dialog for generating a geometry and optionally calibrating a local activation basis.}
+\label{fig:app-screen-3}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{figures/screenshot-04.png}
+\caption{Expanded numerical weights for the selected geometry, including the local calibration metadata.}
+\Description{Expanded numerical weights for the selected geometry, including the local calibration metadata.}
+\label{fig:app-screen-4}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth,height=0.70\textheight,keepaspectratio]{figures/screenshot-05.png}
+\caption{Verification controls before evaluation. No verification results have been computed in this view.}
+\Description{Verification controls before evaluation. No verification results have been computed in this view.}
+\label{fig:app-screen-5}
+\end{figure}
 
 \section{Problem formulation}\label{problem-formulation}
 
@@ -228,13 +266,7 @@ genre, topic, lexical content, and emotional categories. Calibration is
 exploratory and English-based; multilingual effectiveness has not been
 established.
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\textwidth]{figures/illustration-02.pdf}
-\caption{Calibration workflow. Small hand-authored contrasts estimate steering directions; normalization neither orthogonalizes them nor establishes emotional validity.}
-\Description{Contrastive calibration supplies three directions. Calibration workflow. Small hand-authored contrasts estimate steering directions; normalization neither orthogonalizes them nor establishes emotional validity.}
-\label{fig:illustration-2}
-\end{figure}
+
 
 \section{Coordinate-to-activation
 computation}\label{coordinate-to-activation-computation}
@@ -276,13 +308,7 @@ state at that site. Large values can destabilize generation. Raising the
 budget only matters when the proposed perturbation would otherwise be
 clipped; it cannot correct an inaccurate direction.
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\textwidth]{figures/illustration-03.pdf}
-\caption{Control pipeline. Axis controls operate on three emotional coefficients, not vocabulary logits. Raising budget has no effect while the proposal already lies below the ceiling.}
-\Description{Controls shape the activation displacement. Control pipeline. Axis controls operate on three emotional coefficients, not vocabulary logits. Raising budget has no effect while the proposal already lies below the ceiling.}
-\label{fig:illustration-3}
-\end{figure}
+
 
 \section{Intervention within the
 transformer}\label{intervention-within-the-transformer}
@@ -317,13 +343,7 @@ no direct valence-axis perturbation; it does not actively neutralize an
 already negative passage. Correlations between basis vectors further
 complicate interpretation.
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\textwidth]{figures/illustration-04.pdf}
-\caption{Hook implementation schematic. The final prompt token and current cached-decoding token receive the intervention; hooks are removed on exit. Hosted API mode instead uses coordinate-bearing instructions.}
-\Description{A change to both feed-forward branches. Hook implementation schematic. The final prompt token and current cached-decoding token receive the intervention; hooks are removed on exit. Hosted API mode instead uses coordinate-bearing instructions.}
-\label{fig:illustration-4}
-\end{figure}
+
 
 \section{Prompts, sampling, and bounded
 output}\label{prompts-sampling-and-bounded-output}
@@ -398,13 +418,7 @@ with incoherence, factual errors, or undesirable content. The
 implementation does not optimize this score during generation and does
 not include a formal semantic-fidelity metric.
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\textwidth]{figures/illustration-05.pdf}
-\caption{Verification workflow. Failed or direction-unknown assessments are not assigned invented scores, and this score is not an iterative feedback objective during rewriting.}
-\Description{Verification is a separate assessment. Verification workflow. Failed or direction-unknown assessments are not assigned invented scores, and this score is not an iterative feedback objective during rewriting.}
-\label{fig:illustration-5}
-\end{figure}
+
 
 \section{Architecture, persistence, and
 privacy}\label{architecture-persistence-and-privacy}
