@@ -1,6 +1,10 @@
 # AFFECTOR
 
+<div align="left">
+
 **Technical paper:** [PDF](paper/AFFECTOR.pdf) · [LaTeX source](paper/AFFECTOR.tex) · [Complete source ZIP](paper/AFFECTOR-source.zip) · [Markdown](paper/TECHNICAL_PAPER.md) · [Figures and source](paper/)
+
+</div>
 
 **Emotional geometry → written form.** A standalone native Mac research app for transferring an Emotional Atlas trajectory to a document, either through local transformer activation steering or through API instructions.
 
