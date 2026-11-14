@@ -49,7 +49,6 @@ The target document is divided into chunks of at most 700 characters, preferring
 
 This normalized alignment compresses or stretches a source trajectory to the target length. It samples only as many positions as there are chunks. It does not preserve all events or oscillations of a much longer curve. Changes to segmentation can change emotional targets even when the same geometry is selected.
 
-
 ![One continuous path, a finite set of targets](../paper/figures/illustration-01.png)
 
 *Illustration 1. Normalized alignment schematic. Target chunks sample a continuous source path at original character midpoints; a short target can miss narrow changes in a long source trajectory.*
@@ -71,7 +70,6 @@ With `RMS(x) = sqrt(mean_r(x[r]^2))`, normalization gives:
 The resulting `B[l]` is a 3 by 1,024 matrix. These are the editable steering-module weights. Defaults select layers 8, 16, and 23, with weights 1, 1, and 0.5. Geometry files retain the calibration examples, matrices, and model/runtime identity; incompatible identities are rejected.
 
 There is no gradient training, score-supervised fitting, orthogonalization, or guarantee that the three directions isolate their intended concepts. Small hand-authored pairs can confound affect with genre, topic, lexical content, and emotional categories. Calibration is exploratory and English-based; multilingual effectiveness has not been established.
-
 
 ![Contrastive calibration supplies three directions](../paper/figures/illustration-02.png)
 
@@ -101,7 +99,6 @@ Zero strength, budget, or layer weight gives an exact zero perturbation. Each ch
 
 Budget is not a semantic-change percentage. At budget 1, the perturbation can have RMS magnitude comparable to the original hidden state at that site. Large values can destabilize generation. Raising the budget only matters when the proposed perturbation would otherwise be clipped; it cannot correct an inaccurate direction.
 
-
 ![Controls shape the activation displacement](../paper/figures/illustration-03.png)
 
 *Illustration 3. Control pipeline. Axis controls operate on three emotional coefficients, not vocabulary logits. Raising budget has no effect while the proposal already lies below the ceiling.*
@@ -121,7 +118,6 @@ A pre-hook on the feed-forward normalization adds `delta` to its input, and a po
 The module does not search for trigger phrases or recognize an idiom before activating. The chosen target determines the intervention continuously during decoding. Nevertheless, generation remains conditional on the input and instruction, and the hidden state influences perturbation magnitude. The module is not a content-independent guarantee of a particular affect.
 
 A key limitation is that the intervention is an absolute-coordinate bias, not a measured error correction. A target valence of zero yields no direct valence-axis perturbation; it does not actively neutralize an already negative passage. Correlations between basis vectors further complicate interpretation.
-
 
 ![A change to both feed-forward branches](../paper/figures/illustration-04.png)
 
@@ -152,7 +148,6 @@ For assessed coordinate `p=(v,d,2i-1)` and target `c`, the reported similarity i
 The denominator is the maximum distance across the three-dimensional `[-1,1]` cube. Similarity is not a probability. Axis errors are also reported. Unknown direction makes the three-axis distance unavailable. Aggregate before/after comparisons use only paired valid assessments and report coverage and failures. Missing assessments are not assigned invented scores.
 
 The same small model can assess its own output, but shared weaknesses make independent evaluation preferable. A high similarity can coexist with incoherence, factual errors, or undesirable content. The implementation does not optimize this score during generation and does not include a formal semantic-fidelity metric.
-
 
 ![Verification is a separate assessment](../paper/figures/illustration-05.png)
 
