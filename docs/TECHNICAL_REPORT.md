@@ -1,6 +1,6 @@
 # AFFECTOR: Coordinate-Guided Text Rewriting through Transformer Activation Interventions
 
-**ACM manuscript:** [PDF](../paper/AFFECTOR-ACM.pdf) · [LaTeX source](../paper/AFFECTOR-ACM.tex) · [Complete source ZIP](../paper/AFFECTOR-ACM-source.zip)
+**Technical paper:** [PDF](../paper/AFFECTOR-ACM.pdf) · [LaTeX source](../paper/AFFECTOR-ACM.tex) · [Complete source ZIP](../paper/AFFECTOR-ACM-source.zip)
 
 **William Taggart**  
 Modern and Classical Languages and Literatures, Virginia Tech  

@@ -1,6 +1,6 @@
 # AFFECTOR
 
-**ACM manuscript:** [PDF](paper/AFFECTOR-ACM.pdf) · [LaTeX source](paper/AFFECTOR-ACM.tex) · [Complete source ZIP](paper/AFFECTOR-ACM-source.zip)
+**Technical paper:** [PDF](paper/AFFECTOR-ACM.pdf) · [LaTeX source](paper/AFFECTOR-ACM.tex) · [Complete source ZIP](paper/AFFECTOR-ACM-source.zip) · [Markdown](paper/TECHNICAL_PAPER.md) · [Figures and source](paper/)
 
 **Emotional geometry → written form.** A standalone native Mac research app for transferring an Emotional Atlas trajectory to a document, either through local transformer activation steering or through API instructions.
 
@@ -80,11 +80,3 @@ The native interface is SwiftUI/AppKit. A private subprocess communicates over J
 `macos/build.py` builds the bundle using a relocated runtime specified by `AFFECTOR_RUNTIME` (defaults to the installed LAMP-Qwen runtime on the development machine). It copies only runtime libraries, dependency licenses and model files, not LAMP memories. Swift compilation requires Xcode command-line tools. Runtime pins are in the bundled `requirements-lock.txt`. `run-engine.sh` uses the bundled runtime once built, with development overrides available.
 
 Emotional Atlas scoring code is retained under `ATLAS_LICENSE`. The bundled Qwen model is Apache-2.0; dependency licenses are included in app Resources/licenses and package metadata. See [PyTorch hook documentation](https://docs.pytorch.org/docs/2.15/generated/torch.nn.Module.html) for the intervention interfaces.
-
-<!-- illustrated-paper -->
-## Illustrated technical paper
-
-[PDF](paper/AFFECTOR-ACM.pdf) · [ACM LaTeX](paper/AFFECTOR-ACM.tex) · [Markdown](paper/TECHNICAL_PAPER.md) · [Figures and source](paper/)
-
-This edition includes at least five tightly cropped explanatory illustrations, with vector and raster assets and reproducible figure sources. The GH and HF paper files match.
-<!-- /illustrated-paper -->
