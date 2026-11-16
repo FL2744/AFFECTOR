@@ -2,6 +2,8 @@
 
 <div align="left">
 
+Go [here](https://huggingface.co/will-taggart/AFFECTOR) to download the full macOS app.
+
 **Technical paper:** [PDF](paper/AFFECTOR.pdf) · [LaTeX source](paper/AFFECTOR.tex) · [Complete source ZIP](paper/AFFECTOR-source.zip) · [Markdown](paper/TECHNICAL_PAPER.md) · [Figures and source](paper/)
 
 </div>
