@@ -2,7 +2,7 @@
 
 <div align="left">
 
-The full macOS app can be found here: [here](https://huggingface.co/will-taggart/AFFECTOR).
+The full macOS app can be found [here](https://huggingface.co/will-taggart/AFFECTOR).
 
 **Technical paper:** [PDF](paper/AFFECTOR.pdf) · [LaTeX source](paper/AFFECTOR.tex) · [Complete source ZIP](paper/AFFECTOR-source.zip) · [Markdown](paper/TECHNICAL_PAPER.md) · [Figures and source](paper/)
 
