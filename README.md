@@ -34,6 +34,8 @@ The automatic checkpoint is `~/Library/Application Support/AFFECTOR/last-run.jso
 
 A geometry JSON includes a UUID, distinct name, timestamps, trajectory points, layer weights, activation controls, calibration provenance and optionally a compiled basis. Use **Edit numerical weights** to reveal the compiled matrices; the usual editor keeps them out of the way. Strength, budget and inertia also have direct sliders. The editor exposes all values, including the actual 3 × 1024 numerical steering matrix at every selected layer. Saving validates ranges and dimensions. Recalibration replaces the basis with new contrastive measurements.
 
+The cthulhu-shape.json file in this repo can be used for testing. 
+
 Trajectory points use normalized text position `t ∈ [0,1]`, valence `v ∈ [−1,1]`, direction `d ∈ [−1,1]`, and intensity `i ∈ [0,1]`. Atlas plot coordinates are `(v,d,2i−1)`. The trajectory is linearly interpolated, with endpoints clamped. Imported unsupported directions are omitted, never assigned a fabricated coordinate. Missing positions are interpolated explicitly. PCA meshes alone cannot recover these semantic axes; Atlas object exports must include their emotional-analysis snapshot.
 
 Documents are split automatically into passages of at most 700 characters, preferring whitespace boundaries. A passage targets the trajectory at its original character midpoint. This is an approximation to a continuous emotional shape: every generated token in a passage receives the same target, with activation inertia across generation steps. It does not reproduce a solid mesh or guarantee exact emotional coordinates.
