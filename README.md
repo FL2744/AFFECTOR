@@ -18,7 +18,7 @@ This repository contains source, tests and documentation. The model weights, pac
 
 ## Run a local build
 
-Go [here](https://huggingface.co/will-taggart/AFFECTOR) to download the full macOS app. This 0.1.0 build bundles Qwen3.5-0.8B, Python, PyTorch and Transformers. No separate LAMP or Emotional Atlas installation is needed to run it. Requires **Apple Silicon and macOS 26+** because of the bundled numerical runtime. The app has a local ad-hoc signature; it has not been notarized for public distribution.
+Go [here](https://huggingface.co/will-taggart/AFFECTOR) to download the full macOS app. This 0.1.0 build bundles Qwen3.5-0.8B, Python, PyTorch and Transformers. This is a big file with weights for Qwen3.5-0.8b so I put it on Hugging Face. No separate LAMP or Emotional Atlas installation is needed to run it. Requires **Apple Silicon and macOS 26+** because of the bundled numerical runtime. The app has a local ad-hoc signature; it has not been notarized for public distribution.
 
 Use the **Light / Dark** control at the upper right to choose an appearance. Your choice is saved automatically between launches. Light is the initial default.
 
